@@ -5,7 +5,7 @@ module.exports = {
   entry: './src/index.js',
   output: {
     filename: 'main.js',
-    path: path.resolve(__dirname, 'dist'),
+    path: path.resolve(__dirname, 'build'),
     clean: true,
   },
   module: {
@@ -32,6 +32,7 @@ module.exports = {
         { from: 'public/index.html', to: 'index.html' },
         { from: 'public/manifest.json', to: 'manifest.json' },
         { from: 'public/sw.js', to: 'sw.js' },
+        { from: 'public/_redirects', to: '_redirects' },
       ],
     }),
   ],

@@ -5,7 +5,8 @@
   "main": "src/index.js",
   "scripts": {
     "start": "webpack serve --mode development --open",
-    "build": "webpack --mode production"
+    "build": "webpack --mode production",
+    "postbuild": "copy public\\_redirects build\\_redirects"
   },
   "dependencies": {
     "jspdf": "^3.0.1",
