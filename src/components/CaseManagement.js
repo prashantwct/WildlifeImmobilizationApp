@@ -84,19 +84,19 @@ function CaseCalculator({ onAddCalculation }) {
       <div>
         {drugRows.map((row, idx) => (
           <div key={row.id} style={{ margin: '0.5em 0', display: 'flex', gap: 8, alignItems: 'center' }}>
-            <select name="drug" value={row.drug} onChange={e => handleDrugRowChange(row.id, e)}>
+            <select name="drug" value={row.drug} onChange={e => handleDrugRowChange(row.id, e)} style={{ padding: '10px', borderRadius: '4px', border: '1px solid #ddd', flex: '1' }}>
               <option value="">Select Drug</option>
               {drugs.map(d => <option key={d.id} value={d.id}>{d.name}</option>)}
             </select>
-            <input name="dose" placeholder="Dose (mg/kg)" value={row.dose} onChange={e => handleDrugRowChange(row.id, e)} type="number" />
-            <button onClick={() => removeDrugRow(row.id)} disabled={drugRows.length === 1}>Remove</button>
+            <input name="dose" placeholder="Dose (mg/kg)" value={row.dose} onChange={e => handleDrugRowChange(row.id, e)} type="number" style={{ padding: '10px', borderRadius: '4px', border: '1px solid #ddd', flex: '1' }} />
+            <button onClick={() => removeDrugRow(row.id)} disabled={drugRows.length === 1} style={{ padding: '10px 15px', backgroundColor: '#f44336', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer', fontSize: '1rem', fontWeight: 'bold' }}>Remove</button>
           </div>
         ))}
-        <button onClick={addDrugRow}>Add Drug</button>
+        <button onClick={addDrugRow} style={{ padding: '10px 15px', backgroundColor: '#4CAF50', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer', fontSize: '1rem', fontWeight: 'bold' }}>Add Drug</button>
       </div>
-      <button onClick={calculate}>Calculate</button>
+      <button onClick={calculate} style={{ padding: '12px 24px', backgroundColor: '#2196F3', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer', fontSize: '1rem', fontWeight: 'bold' }}>Calculate</button>
       {results.length > 0 && (
-        <div className="result">
+        <div className="result" style={{ padding: '20px', border: '1px solid #ddd', borderRadius: '8px', boxShadow: '0 2px 5px rgba(0,0,0,0.1)', backgroundColor: '#fff' }}>
           {results.map((r, i) => <div key={i}>{r}</div>)}
         </div>
       )}
@@ -169,13 +169,13 @@ function CaseManagement() {
   const handleDelete = id => setCases(cases.filter(c => c.id !== id));
   return (
     <div>
-      <h2>Case Management</h2>
-      <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', marginBottom: 8 }}>
+      <h2 style={{color: '#3f51b5', borderBottom: '2px solid #3f51b5', paddingBottom: '8px', marginBottom: '20px'}}>Case Management</h2>
+      <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', marginBottom: 15, backgroundColor: '#e8eaf6', padding: '10px', borderRadius: '4px' }}>
         <TimerDisplay startTime={form.monitoring.drugAdminTime} />
       </div>
-      <div style={{ border: '1px solid #ccc', padding: 12, borderRadius: 8, marginBottom: 16 }}>
-        <div style={{marginBottom: 24}}>
-          <h4>Case Calculator</h4>
+      <div style={{ border: '1px solid #bbdefb', padding: 20, borderRadius: 8, marginBottom: 20, boxShadow: '0 2px 5px rgba(0,0,0,0.1)', backgroundColor: '#fff' }}>
+        <div style={{marginBottom: 30}}>
+          <h4 style={{color: '#1976d2', marginBottom: '15px', borderLeft: '4px solid #1976d2', paddingLeft: '10px'}}>Case Calculator</h4>
           <CaseCalculator onAddCalculation={calc => {
             setForm(f => ({
               ...f,
@@ -186,66 +186,137 @@ function CaseManagement() {
             }));
           }} />
         </div>
-        <input name="caseNumber" placeholder="Case Number" value={form.caseNumber || ''} onChange={handleChange} />
-        <input name="name" placeholder="Case Name" value={form.name} onChange={handleChange} />
-        <input name="date" type="date" value={form.date} onChange={handleChange} />
-        <h4>Immobilization Monitoring</h4>
-        <div style={{ fontSize: '0.95em', color: '#555', marginBottom: 8 }}>
+        <div style={{display: 'flex', flexWrap: 'wrap', gap: '15px', marginBottom: '20px'}}>
+          <input 
+            name="caseNumber" 
+            placeholder="Case Number" 
+            value={form.caseNumber || ''} 
+            onChange={handleChange} 
+            style={{padding: '10px', borderRadius: '4px', border: '1px solid #ddd', flex: '1'}} 
+          />
+          <input 
+            name="name" 
+            placeholder="Case Name" 
+            value={form.name} 
+            onChange={handleChange} 
+            style={{padding: '10px', borderRadius: '4px', border: '1px solid #ddd', flex: '2'}} 
+          />
+          <input 
+            name="date" 
+            type="date" 
+            value={form.date} 
+            onChange={handleChange} 
+            style={{padding: '10px', borderRadius: '4px', border: '1px solid #ddd'}} 
+          />
+        </div>
+        <h4 style={{color: '#1976d2', marginBottom: '15px', borderLeft: '4px solid #1976d2', paddingLeft: '10px'}}>Immobilization Monitoring</h4>
+        <div style={{ fontSize: '0.95em', color: '#555', marginBottom: 15, backgroundColor: '#e8eaf6', padding: '10px', borderRadius: '4px' }}>
           <div><b>Drug Administration Time</b>: when immobilization drugs are given</div>
           <div><b>Induction Time</b>: when animal first shows signs of sedation/immobilization</div>
           <div><b>Revival Time</b>: when animal is fully awake after reversal</div>
         </div>
-        <div style={{display:'flex', flexWrap:'wrap', gap:12, marginBottom:12}}>
-  <button onClick={() => setForm(f => ({...f, monitoring: { ...f.monitoring, drugAdminTime: new Date().toISOString() }}))}>
+        <div style={{display:'flex', flexWrap:'wrap', gap:12, marginBottom:20}}>
+  <button 
+    style={{padding: '10px 15px', backgroundColor: '#4CAF50', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer', margin: '5px', fontWeight: 'bold'}}
+    onClick={() => setForm(f => ({...f, monitoring: { ...f.monitoring, drugAdminTime: new Date().toISOString() }}))}
+  >
     Drug Administration
   </button>
-  <span>{form.monitoring.drugAdminTime ? new Date(form.monitoring.drugAdminTime).toLocaleTimeString() : '-'}</span>
-  <button onClick={() => setForm(f => ({...f, monitoring: { ...f.monitoring, inductionTime: new Date().toISOString() }}))}>
+  <span style={{fontSize: '1rem', padding: '6px', backgroundColor: '#f0f9f0', borderRadius: '4px', minWidth: '80px', display: 'inline-block', textAlign: 'center'}}>  
+    {form.monitoring.drugAdminTime ? new Date(form.monitoring.drugAdminTime).toLocaleTimeString('en-IN', {timeZone: 'Asia/Kolkata'}) : '-'}
+  </span>
+  <button 
+    style={{padding: '10px 15px', backgroundColor: '#2196F3', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer', margin: '5px', fontWeight: 'bold'}} 
+    onClick={() => setForm(f => ({...f, monitoring: { ...f.monitoring, inductionTime: new Date().toISOString() }}))}
+  >
     Induction
   </button>
-  <span>{form.monitoring.inductionTime ? new Date(form.monitoring.inductionTime).toLocaleTimeString() : '-'}</span>
-  <button onClick={() => setForm(f => ({...f, monitoring: { ...f.monitoring, headDownTime: new Date().toISOString() }}))}>
+  <span style={{fontSize: '1rem', padding: '6px', backgroundColor: '#e3f2fd', borderRadius: '4px', minWidth: '80px', display: 'inline-block', textAlign: 'center'}}>  
+    {form.monitoring.inductionTime ? new Date(form.monitoring.inductionTime).toLocaleTimeString('en-IN', {timeZone: 'Asia/Kolkata'}) : '-'}
+  </span>
+  <button 
+    style={{padding: '10px 15px', backgroundColor: '#9C27B0', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer', margin: '5px', fontWeight: 'bold'}}
+    onClick={() => setForm(f => ({...f, monitoring: { ...f.monitoring, headDownTime: new Date().toISOString() }}))}
+  >
     Head Down
   </button>
-  <span>{form.monitoring.headDownTime ? new Date(form.monitoring.headDownTime).toLocaleTimeString() : '-'}</span>
-  <button onClick={() => setForm(f => ({...f, monitoring: { ...f.monitoring, approachTime: new Date().toISOString() }}))}>
+  <span style={{fontSize: '1rem', padding: '6px', backgroundColor: '#f3e5f5', borderRadius: '4px', minWidth: '80px', display: 'inline-block', textAlign: 'center'}}>  
+    {form.monitoring.headDownTime ? new Date(form.monitoring.headDownTime).toLocaleTimeString('en-IN', {timeZone: 'Asia/Kolkata'}) : '-'}
+  </span>
+  <button 
+    style={{padding: '10px 15px', backgroundColor: '#FF9800', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer', margin: '5px', fontWeight: 'bold'}}
+    onClick={() => setForm(f => ({...f, monitoring: { ...f.monitoring, approachTime: new Date().toISOString() }}))}
+  >
     Approach
   </button>
-  <span>{form.monitoring.approachTime ? new Date(form.monitoring.approachTime).toLocaleTimeString() : '-'}</span>
-  <button onClick={() => setForm(f => ({...f, monitoring: { ...f.monitoring, revivalTime: new Date().toISOString() }}))}>
+  <span style={{fontSize: '1rem', padding: '6px', backgroundColor: '#fff3e0', borderRadius: '4px', minWidth: '80px', display: 'inline-block', textAlign: 'center'}}>  
+    {form.monitoring.approachTime ? new Date(form.monitoring.approachTime).toLocaleTimeString('en-IN', {timeZone: 'Asia/Kolkata'}) : '-'}
+  </span>
+  <button 
+    style={{padding: '10px 15px', backgroundColor: '#F44336', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer', margin: '5px', fontWeight: 'bold'}}
+    onClick={() => setForm(f => ({...f, monitoring: { ...f.monitoring, revivalTime: new Date().toISOString() }}))}
+  >
     Revival Time
   </button>
-  <span>{form.monitoring.revivalTime ? new Date(form.monitoring.revivalTime).toLocaleTimeString() : '-'}</span>
-  <button onClick={() => setForm(f => ({...f, monitoring: { ...f.monitoring, headUpTime: new Date().toISOString() }}))}>
+  <span style={{fontSize: '1rem', padding: '6px', backgroundColor: '#ffebee', borderRadius: '4px', minWidth: '80px', display: 'inline-block', textAlign: 'center'}}>  
+    {form.monitoring.revivalTime ? new Date(form.monitoring.revivalTime).toLocaleTimeString('en-IN', {timeZone: 'Asia/Kolkata'}) : '-'}
+  </span>
+  <button 
+    style={{padding: '10px 15px', backgroundColor: '#00BCD4', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer', margin: '5px', fontWeight: 'bold'}}
+    onClick={() => setForm(f => ({...f, monitoring: { ...f.monitoring, headUpTime: new Date().toISOString() }}))}
+  >
     Head Up
   </button>
-  <span>{form.monitoring.headUpTime ? new Date(form.monitoring.headUpTime).toLocaleTimeString() : '-'}</span>
-  <button onClick={() => setForm(f => ({...f, monitoring: { ...f.monitoring, sternalTime: new Date().toISOString() }}))}>
+  <span style={{fontSize: '1rem', padding: '6px', backgroundColor: '#e0f7fa', borderRadius: '4px', minWidth: '80px', display: 'inline-block', textAlign: 'center'}}>  
+    {form.monitoring.headUpTime ? new Date(form.monitoring.headUpTime).toLocaleTimeString('en-IN', {timeZone: 'Asia/Kolkata'}) : '-'}
+  </span>
+  <button 
+    style={{padding: '10px 15px', backgroundColor: '#795548', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer', margin: '5px', fontWeight: 'bold'}}
+    onClick={() => setForm(f => ({...f, monitoring: { ...f.monitoring, sternalTime: new Date().toISOString() }}))}
+  >
     Sternal
   </button>
-  <span>{form.monitoring.sternalTime ? new Date(form.monitoring.sternalTime).toLocaleTimeString() : '-'}</span>
-  <button onClick={() => setForm(f => ({...f, monitoring: { ...f.monitoring, standingTime: new Date().toISOString() }}))}>
+  <span style={{fontSize: '1rem', padding: '6px', backgroundColor: '#efebe9', borderRadius: '4px', minWidth: '80px', display: 'inline-block', textAlign: 'center'}}>  
+    {form.monitoring.sternalTime ? new Date(form.monitoring.sternalTime).toLocaleTimeString('en-IN', {timeZone: 'Asia/Kolkata'}) : '-'}
+  </span>
+  <button 
+    style={{padding: '10px 15px', backgroundColor: '#607D8B', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer', margin: '5px', fontWeight: 'bold'}}
+    onClick={() => setForm(f => ({...f, monitoring: { ...f.monitoring, standingTime: new Date().toISOString() }}))}
+  >
     Standing
   </button>
-  <span>{form.monitoring.standingTime ? new Date(form.monitoring.standingTime).toLocaleTimeString() : '-'}</span>
+  <span style={{fontSize: '1rem', padding: '6px', backgroundColor: '#eceff1', borderRadius: '4px', minWidth: '80px', display: 'inline-block', textAlign: 'center'}}>  
+    {form.monitoring.standingTime ? new Date(form.monitoring.standingTime).toLocaleTimeString('en-IN', {timeZone: 'Asia/Kolkata'}) : '-'}
+  </span>
 </div>
-        <div style={{display:'flex', gap:12, marginBottom:12}}>
-          <button onClick={() => {
-            const now = new Date().toISOString();
-            const respiration = prompt('Enter respiration value:');
-            const temperature = prompt('Enter temperature value:');
-            if (respiration || temperature) setForm(f => ({
-              ...f,
-              monitoring: {
-                ...f.monitoring,
-                intervals: [...(f.monitoring.intervals||[]), { time: now, respiration, temperature }]
-              }
-            }));
-          }}>Add Interval</button>
-          <ul>
+        <div style={{display:'flex', gap:15, marginBottom:20, alignItems: 'center'}}>
+          <button 
+            style={{padding: '10px 15px', backgroundColor: '#3f51b5', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer', fontWeight: 'bold'}}
+            onClick={() => {
+              const now = new Date().toISOString();
+              const respiration = prompt('Enter respiration value:');
+              const temperature = prompt('Enter temperature value:');
+              if (respiration || temperature) setForm(f => ({
+                ...f,
+                monitoring: {
+                  ...f.monitoring,
+                  intervals: [...(f.monitoring.intervals||[]), { time: now, respiration, temperature }]
+                }
+              }));
+            }}
+          >Add Interval</button>
+          <ul style={{listStyleType: 'none', padding: 0}}>
             {(form.monitoring.intervals || []).map((iv, i) => (
-              <li key={i}>{iv.time} - Resp: {iv.respiration}, Temp: {iv.temperature}
-                <button onClick={() => removeInterval(i)}>Remove</button>
+              <li key={i} style={{margin: '8px 0', padding: '10px', backgroundColor: '#f5f5f5', borderRadius: '4px', display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
+                <span>
+                  <strong>{new Date(iv.time).toLocaleTimeString('en-IN', {timeZone: 'Asia/Kolkata'})}</strong> - 
+                  <span style={{color: '#2196F3'}}>Resp: {iv.respiration}</span>, 
+                  <span style={{color: '#F44336'}}>Temp: {iv.temperature}°C</span>
+                </span>
+                <button 
+                  style={{padding: '5px 10px', backgroundColor: '#f44336', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer'}}
+                  onClick={() => removeInterval(i)}
+                >Remove</button>
               </li>
             ))}
           </ul>
